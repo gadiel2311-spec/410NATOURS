@@ -122,6 +122,7 @@ app
   .patch(updateTour)
   .delete(deleteTour);
 
+app.route('/api/v1/users');
 // 4) START SERVER
 
 const port = 3000;
