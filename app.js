@@ -110,7 +110,7 @@ const deleteTour = (req, res) => {
 const getAllUsers = (req, res) => {
   res.status(500).json({
     status: 'error',
-    messages: 'This route is not yet',
+    messages: 'This route is not yet defined!😶',
   });
 };
 
