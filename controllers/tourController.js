@@ -6,6 +6,8 @@ const tours = JSON.parse(
 
 exports.getALLTours = (req, res) => {
   console.log(req.requestTime);
+  ///
+
   res.status(200).json({
     status: 'success',
     requesteAt: req.requestTime,
