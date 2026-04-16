@@ -4,11 +4,6 @@ const router = express.Router();
 
 router.param('id', tourController.checkID);
 
-//Create a checkBody middware
-//Check if body contains the same and price property
-//If not, send back 400 (bad request)
-//Add it to the post handler stack
-
 router
   //
   .route('/')
