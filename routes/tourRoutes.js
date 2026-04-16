@@ -13,7 +13,7 @@ router
   //
   .route('/')
   .get(tourController.getALLTours)
-  .post(middleware, tourController.createTour);
+  .post(tourController.checkBody, tourController.createTour);
 
 router
   //
