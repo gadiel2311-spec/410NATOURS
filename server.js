@@ -1,4 +1,3 @@
-const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const app = require('./app');
 
@@ -17,21 +16,6 @@ mongoose
   })
   .then(() => {
     console.log('DB connection successful!');
-  });
-
-const testTour = new Tour({
-  rating: 4.7,
-  name: 'The Forest Hiker',
-  price: 497,
-});
-
-testTour
-  .save()
-  .then((doc) => {
-    console.log(doc);
-  })
-  .catch((err) => {
-    console.log('ERROR 💥:', err);
   });
 
 const port = process.env.PORT || 3000;
