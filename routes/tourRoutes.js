@@ -8,7 +8,7 @@ router
   //
   .route('/')
   .get(tourController.getALLTours)
-  .post(tourController.checkBody, tourController.createTour);
+  .post(tourController.createTour);
 
 router
   //
