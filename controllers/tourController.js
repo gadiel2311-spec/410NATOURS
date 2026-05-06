@@ -4,6 +4,8 @@ exports.getAllTours = async (req, res) => {
   try {
     const tours = await Tour.find();
 
+    console.log(tours);
+
     res.status(200).json({
       status: 'success',
       results: tours.length,

@@ -25,12 +25,12 @@ app.use((req, res, next) => {
 });
 
 // 3) ROUTES
-app.get('/api/v1/tours', (req, res) => {
-  res.status(200).json({
-    status: 'success',
-    data: { tours: [] },
-  });
-});
+// app.get('/api/v1/tours', (req, res) => {
+//   res.status(200).json({
+//     status: 'success',
+//     data: { tours: [] },
+//   });
+// });
 
 app.use('/api/v1/tours', tourRouter);
 app.use('/api/v1/users', userRouter);
