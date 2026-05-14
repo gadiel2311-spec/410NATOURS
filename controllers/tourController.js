@@ -32,6 +32,11 @@ exports.getAllTours = async (req, res) => {
       query = query.select('-__v');
     }
 
+    // 4) PAGINATION
+
+    //page=2&limit=10, 1-10, page1, 11-20, page 2, 21-30 page 3
+    query = query.skip(10).limit(10);
+
     // EXECUTE QUERY
     const tours = await query;
     // const query = Tour.find()
