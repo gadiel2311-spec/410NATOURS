@@ -23,8 +23,16 @@ class APIFeatures {
     let queryStr = JSON.stringify(queryObj);
     queryStr = queryStr.replace(/\b(gte|gt|lte|lt)\b/g, (match) => `$${match}`);
 
-    this.query = this.query.find(JSON.parse(queryStr));
-    return this;
+    this.query.find(JSON.parse(queryStr));
+  }
+
+  sort() {
+    if (req.query.sort) {
+      const sortBy = req.query.sort.split(',').join(' ');
+      query = query.sort(sortBy);
+    } else {
+      query = query.sort('-createdAt');
+    }
   }
 }
 
@@ -45,12 +53,12 @@ exports.getAllTours = async (req, res) => {
     // let query = Tour.find(JSON.parse(queryStr));
 
     // 2) SORTING
-    if (req.query.sort) {
-      const sortBy = req.query.sort.split(',').join(' ');
-      query = query.sort(sortBy);
-    } else {
-      query = query.sort('-createdAt');
-    }
+    // if (req.query.sort) {
+    //   const sortBy = req.query.sort.split(',').join(' ');
+    //   query = query.sort(sortBy);
+    // } else {
+    //   query = query.sort('-createdAt');
+    // }
 
     // // 3) Field limiting
     if (req.query.fields) {
@@ -73,7 +81,9 @@ exports.getAllTours = async (req, res) => {
     }
 
     // EXECUTE QUERY
-    const tours = await query;
+
+    const features = new APIFeatures(Tour.find(), req.query);
+    const tours = await features.query;
 
     // SEND RESPONSE
     res.status(200).json({
