@@ -1,4 +1,5 @@
-const mongoose = require('mongoose');
+﻿const mongoose = require('mongoose');
+
 const tourSchema = new mongoose.Schema(
   {
     name: {
@@ -45,7 +46,7 @@ const tourSchema = new mongoose.Schema(
       type: String,
       required: [true, 'A tour must have a cover image'],
     },
-    images: [String],
+    images: [String], // image list
     createdAt: {
       type: Date,
       default: Date.now(),
