@@ -55,6 +55,10 @@ const tourSchema = new mongoose.Schema(
       select: false,
     },
     startDates: [Date],
+    secretTour: {
+      type: Boolean,
+      default: false,
+    },
   },
   {
     toJSON: { virtuals: true },
@@ -77,6 +81,11 @@ tourSchema.pre('save', function (next) {
 // post-save hook (no logging to avoid console statements in production)
 // next();
 //});
+
+//QUEN MIDDLEWARE
+tourSchema.pre('find', (next) => {
+  next();
+});
 
 const Tour = mongoose.model('Tour', tourSchema);
 
