@@ -73,6 +73,11 @@ tourSchema.pre('save', function (next) {
   next();
 });
 
+//tourSchema.post('save', (doc, next) => {
+// post-save hook (no logging to avoid console statements in production)
+// next();
+//});
+
 const Tour = mongoose.model('Tour', tourSchema);
 
 module.exports = Tour;
