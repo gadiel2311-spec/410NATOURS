@@ -82,8 +82,10 @@ tourSchema.pre('save', function (next) {
 // next();
 //});
 
-//QUEN MIDDLEWARE
-tourSchema.pre('find', (next) => {
+//QUERY MIDDLEWARE
+//tourSchema.pre('find', function (next) {
+tourSchema.pre(/^find/, function (next) {
+  this.find({ secretTour: { $ne: true } });
   next();
 });
 
