@@ -4,6 +4,9 @@ const morgan = require('morgan');
 const tourRouter = require('./routes/tourRoutes');
 const userRouter = require('./routes/userRoutes');
 
+// ⭐ AGREGA ESTA LÍNEA
+const globalErrorHandler = require('./controllers/errorController');
+
 const app = express();
 
 // 1) MIDLEWARES
@@ -35,5 +38,7 @@ app.use((req, res, next) => {
 app.use('/api/v1/tours', tourRouter);
 app.use('/api/v1/users', userRouter);
 
+//ERROR HANDLER
+app.use(globalErrorHandler);
 // 4) START SERVER
 module.exports = app;
