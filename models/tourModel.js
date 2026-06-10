@@ -98,6 +98,8 @@ tourSchema.post(/^find/, async function (docs, next) {
 
 // AFFREGATION MIDDLEWARE
 tourSchema.pre('aggregate', function (next) {
+  this.pipeline().unshift({ $match: { secretTour: { $ne: true } } });
+
   console.log(this.pipeline());
   next();
 });
