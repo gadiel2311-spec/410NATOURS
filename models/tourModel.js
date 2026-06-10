@@ -98,7 +98,8 @@ tourSchema.post(/^find/, async function (docs, next) {
 
 // AFFREGATION MIDDLEWARE
 tourSchema.pre('aggregate', function (next) {
-  console.log(this);
+  console.log(this.pipeline());
+  next();
 });
 
 const Tour = mongoose.model('Tour', tourSchema);
