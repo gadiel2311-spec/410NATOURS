@@ -91,9 +91,14 @@ tourSchema.pre(/^find/, function (next) {
   next();
 });
 
-tourSchema.post(/^find/, async function (docs) {
+tourSchema.post(/^find/, async function (docs, next) {
   console.log(`Query took ${Date.now() - this.start} milliseconds!`);
-  console.log(docs);
+  next();
+});
+
+// AFFREGATION MIDDLEWARE
+tourSchema.pre('aggregate', function (next) {
+  console.log(this);
 });
 
 const Tour = mongoose.model('Tour', tourSchema);
