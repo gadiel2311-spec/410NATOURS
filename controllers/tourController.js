@@ -38,7 +38,7 @@ exports.getTour = async (req, res, next) => {
 };
 
 ///////////CREATE
-exports.createTour = catchAsync(async (req, res, next) => {
+exports.createTour = catchAsync(async (req, res,) => {
   const newTour = await Tour.create(req.body);
 
   res.status(201).json({
@@ -47,61 +47,49 @@ exports.createTour = catchAsync(async (req, res, next) => {
   });
 });
 ////UPDATETOUR//
-exports.updateTour = async (req, res, next) => {
-  try {
-    const tour = await Tour.findByIdAndUpdate(req.params.id, req.body, {
-      new: true,
-      runValidators: true,
-    });
+exports.updateTour = catchAsync(async (req, res,) => {
+  const tour = await Tour.findByIdAndUpdate(req.params.id, req.body, {
+    new: true,
+    runValidators: true,
+  });
 
-    res.status(200).json({
-      status: 'success',
-      data: { tour },
-    });
-  } catch (err) {
-    next(err);
-  }
-};
+  res.status(200).json({
+    status: 'success',
+    data: { tour },
+  });
+});
 
-exports.deleteTour = async (req, res, next) => {
-  try {
-    await Tour.findByIdAndDelete(req.params.id);
+exports.deleteTour = catchAsync(async (req, res) => {
+  await Tour.findByIdAndDelete(req.params.id);
 
-    res.status(204).json({
-      status: 'success',
-      data: null,
-    });
-  } catch (err) {
-    next(err);
-  }
-};
+  res.status(204).json({
+    status: 'success',
+    data: null,
+  });
+});
 
-exports.getTourStart = async (req, res, next) => {
-  try {
-    const stats = await Tour.aggregate([
-      { $match: { ratingsAverage: { $gte: 4.5 } } },
-      {
-        $group: {
-          _id: { $toUpper: '$difficulty' },
-          numTours: { $sum: 1 },
-          numRatings: { $sum: '$ratingsQuantity' },
-          avgRating: { $avg: '$ratingsAverage' },
-          avgPrice: { $avg: '$price' },
-          miniPrice: { $min: '$price' },
-          maxPrice: { $max: '$price' },
-        },
+exports.getTourStart = catchAsync(async (req, res, next) => {
+  const stats = await Tour.aggregate([
+    { $match: { ratingsAverage: { $gte: 4.5 } } },
+    {
+      $group: {
+        _id: { $toUpper: '$difficulty' },
+        numTours: { $sum: 1 },
+        numRatings: { $sum: '$ratingsQuantity' },
+        avgRating: { $avg: '$ratingsAverage' },
+        avgPrice: { $avg: '$price' },
+        miniPrice: { $min: '$price' },
+        maxPrice: { $max: '$price' },
       },
-      { $sort: { avgPrice: 1 } },
-    ]);
+    },
+    { $sort: { avgPrice: 1 } },
+  ]);
 
-    res.status(200).json({
-      status: 'success',
-      data: { stats },
-    });
-  } catch (err) {
-    next(err);
-  }
-};
+  res.status(200).json({
+    status: 'success',
+    data: { stats },
+  });
+});
 
 exports.getMonthlyPlan = async (req, res, next) => {
   try {
