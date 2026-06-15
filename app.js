@@ -16,11 +16,6 @@ if (process.env.NODE_ENV === 'development') {
 
 app.use(express.json());
 app.use(express.static(`${__dirname}/public`));
-///
-app.use((req, res, next) => {
-  console.log('Hello from the middleware 👋');
-  next();
-});
 
 app.use((req, res, next) => {
   req.requestTime = new Date().toISOString();
@@ -28,12 +23,6 @@ app.use((req, res, next) => {
 });
 
 // 3) ROUTES
-// app.get('/api/v1/tours', (req, res) => {
-//   res.status(200).json({
-//     status: 'success',
-//     data: { tours: [] },
-//   });
-// });
 
 app.use('/api/v1/tours', tourRouter);
 app.use('/api/v1/users', userRouter);
