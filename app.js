@@ -4,6 +4,7 @@ const morgan = require('morgan');
 const tourRouter = require('./routes/tourRoutes');
 const userRouter = require('./routes/userRoutes');
 
+const AppError = require('./utils/appError');
 // ⭐ AGREGA ESTA LÍNEA
 const globalErrorHandler = require('./controllers/errorController');
 
@@ -28,15 +29,7 @@ app.use('/api/v1/tours', tourRouter);
 app.use('/api/v1/users', userRouter);
 
 app.all('*', (req, res, next) => {
-  //res.status(400).jason({
-  //status: 'fail',
-  //message: `Can't find ${req.originalUrl} on this server!`,
-  // });
-  const err = new Error(`Can't find ${req.originalUrl} on this server!`);
-  err.status = 'fail';
-  err.statusCode = 404;
-
-  next(err);
+  next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
 });
 
 app.use((err, req, res, next) => {
