@@ -40,19 +40,17 @@ exports.getTour = async (req, res, next) => {
   }
 };
 
-exports.createTour = async (req, res, next) => {
-  try {
-    const newTour = await Tour.create(req.body);
+const catchAsync = (fn) => (req, res, next) => fn(req, res, next).catch(next);
+///////////CREATE
+exports.createTour = catchAsync(async (req, res, next) => {
+  const newTour = await Tour.create(req.body);
 
-    res.status(201).json({
-      status: 'success',
-      data: { tour: newTour },
-    });
-  } catch (err) {
-    next(err); // ⭐ ESTA ES LA LÍNEA CLAVE
-  }
-};
-
+  res.status(201).json({
+    status: 'success',
+    data: { tour: newTour },
+  });
+});
+////UPDATETOUR//
 exports.updateTour = async (req, res, next) => {
   try {
     const tour = await Tour.findByIdAndUpdate(req.params.id, req.body, {
