@@ -38,7 +38,7 @@ exports.getTour = async (req, res, next) => {
 };
 
 ///////////CREATE
-exports.createTour = catchAsync(async (req, res,) => {
+exports.createTour = catchAsync(async (req, res, next) => {
   const newTour = await Tour.create(req.body);
 
   res.status(201).json({
@@ -47,7 +47,7 @@ exports.createTour = catchAsync(async (req, res,) => {
   });
 });
 ////UPDATETOUR//
-exports.updateTour = catchAsync(async (req, res,) => {
+exports.updateTour = catchAsync(async (req, res, next) => {
   const tour = await Tour.findByIdAndUpdate(req.params.id, req.body, {
     new: true,
     runValidators: true,
@@ -59,7 +59,7 @@ exports.updateTour = catchAsync(async (req, res,) => {
   });
 });
 
-exports.deleteTour = catchAsync(async (req, res) => {
+exports.deleteTour = catchAsync(async (req, res, next) => {
   await Tour.findByIdAndDelete(req.params.id);
 
   res.status(204).json({
@@ -91,38 +91,34 @@ exports.getTourStart = catchAsync(async (req, res, next) => {
   });
 });
 
-exports.getMonthlyPlan = async (req, res, next) => {
-  try {
-    const year = req.params.year * 1;
+exports.getMonthlyPlan = catchAsync(async (req, res, next) => {
+  const year = req.params.year * 1;
 
-    const plan = await Tour.aggregate([
-      { $unwind: '$startDates' },
-      {
-        $match: {
-          startDates: {
-            $gte: new Date(`${year}-01-01`),
-            $lte: new Date(`${year}-12-31`),
-          },
+  const plan = await Tour.aggregate([
+    { $unwind: '$startDates' },
+    {
+      $match: {
+        startDates: {
+          $gte: new Date(`${year}-01-01`),
+          $lte: new Date(`${year}-12-31`),
         },
       },
-      {
-        $group: {
-          _id: { $month: '$startDates' },
-          numTourStarts: { $sum: 1 },
-          tours: { $push: '$name' },
-        },
+    },
+    {
+      $group: {
+        _id: { $month: '$startDates' },
+        numTourStarts: { $sum: 1 },
+        tours: { $push: '$name' },
       },
-      { $addFields: { month: '$_id' } },
-      { $project: { _id: 0 } },
-      { $sort: { numTourStarts: -1 } },
-      { $limit: 12 },
-    ]);
+    },
+    { $addFields: { month: '$_id' } },
+    { $project: { _id: 0 } },
+    { $sort: { numTourStarts: -1 } },
+    { $limit: 12 },
+  ]);
 
-    res.status(200).json({
-      status: 'success',
-      data: { plan },
-    });
-  } catch (err) {
-    next(err);
-  }
-};
+  res.status(200).json({
+    status: 'success',
+    data: { plan },
+  });
+});
