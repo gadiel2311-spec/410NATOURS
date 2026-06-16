@@ -1,0 +1,6 @@
+{
+  "markdown.validate.fileLinks.markdownFragmentLinks": "ignore",
+  "markdown.validate.duplicateLinkDefinitions.enabled": "ignore",
+  "markdown.validate.fileLinks.enabled": "ignore",
+  "markdown.validate.fragmentLinks.enabled": "ignore"
+}
