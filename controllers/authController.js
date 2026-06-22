@@ -10,9 +10,10 @@ exports.signup = catchAsync(async (req, res, next) => {
     passwordConfirm: req.body.passwordConfirm,
   });
 
-  const token = jwt.sing({ id: newUser._id }, process.env.JWT_SECRET, {
+  const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET, {
     expiresIn: process.env.JWT_EXPIRES_IN,
   });
+
   res.status(201).json({
     status: 'success',
     token,
@@ -21,3 +22,11 @@ exports.signup = catchAsync(async (req, res, next) => {
     },
   });
 });
+
+exports.login = (req, res, next) => {
+  const { email, passwort } = req.body;
+
+  //1 Check if email and password exist
+  //2 Check if user exists && password is correct
+  //3 If Everything ok, send token to client
+};
