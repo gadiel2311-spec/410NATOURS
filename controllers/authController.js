@@ -24,18 +24,28 @@ exports.signup = catchAsync(async (req, res, next) => {
   });
 });
 
-exports.login = (req, res, next) => {
+exports.login = catchAsync(async (req, res, next) => {
   const { email, password } = req.body;
 
-  //1 Check if email and password exist
+  // 1) Check if email and password exist
   if (!email || !password) {
-    next(new AppError('Please provide email and password', 400));
+    return next(new AppError('Please provide email and password', 400));
   }
-  //2 Check if user exists && password is correct
-  //3 If Everything ok, send token to client
-  const token = '';
+
+  // 2) Check if user exists && password is correct
+  const user = await User.findOne({ email }).select('+password');
+
+  if (!user || !(await user.correctPassword(password, user.password))) {
+    return next(new AppError('Incorrect email or password', 401));
+  }
+
+  // 3) If everything ok, send token to client
+  const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
+    expiresIn: process.env.JWT_EXPIRES_IN,
+  });
+
   res.status(200).json({
     status: 'success',
     token,
   });
-};
+});
