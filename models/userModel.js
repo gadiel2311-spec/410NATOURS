@@ -56,9 +56,7 @@ userSchema.pre('save', function (next) {
 userSchema.methods.correctPassword = async function (
   candidatePassword,
   userPassword,
-) {
-  return await bcrypt.compare(candidatePassword, userPassword);
-};
+) {};
 
 // 🔥 MÉTODO PARA SABER SI CAMBIÓ LA CONTRASEÑA DESPUÉS DEL TOKEN
 userSchema.methods.changedPasswordAfter = function (JWTTimestamp) {
