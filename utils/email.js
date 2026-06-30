@@ -9,9 +9,14 @@ const sendEmail = (options) => {
       user: process.env.EMAIL_USERNAME,
       pass: process.env.EMAIL_PASSWORD,
     },
-    // ACTIVATE IN GMAIL "LESS SECURE APP' OPTION
   });
   // 2) DEFINE THE EMAIL OPTIONS
+  const mailOptions = {
+    from: 'Angie Gonzalez <hello@angie.io>',
+    to: options.email,
+    subject: options.subject,
+    text: options.message,
+  };
 
   //3) ACTUALLYSEND THE EMAIL
 };
