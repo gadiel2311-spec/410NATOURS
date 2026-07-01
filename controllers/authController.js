@@ -2,6 +2,7 @@ const jwt = require('jsonwebtoken');
 const User = require('./../models/userModel');
 const catchAsync = require('../utils/catchAsync');
 const AppError = require('./../utils/appError');
+const sendEmail = require('../utils/email');
 
 exports.signup = catchAsync(async (req, res, next) => {
   const newUser = await User.create({
@@ -51,6 +52,7 @@ exports.login = catchAsync(async (req, res, next) => {
 });
 
 const { promisify } = require('util');
+//const sendEmail = require('../utils/email');
 
 exports.protect = catchAsync(async (req, res, next) => {
   // 1) Getting token and check if it's there
@@ -94,7 +96,7 @@ exports.protect = catchAsync(async (req, res, next) => {
 exports.restrictTo = (...roles) => {
   return (req, res, next) => {
     //roles ['admin', lead-guide]. role="user"
-    if (!rolesincludes()) {
+    if (!roles.includes(req.user.role)) {
       return next(
         new AppError('You do not have permission to perform this action', 403),
       );
